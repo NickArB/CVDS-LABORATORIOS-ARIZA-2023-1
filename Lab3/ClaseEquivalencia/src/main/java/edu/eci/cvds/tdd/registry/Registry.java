@@ -3,20 +3,23 @@ import java.util.ArrayList;
 
 public class Registry {
 	private ArrayList<Person> persons = new ArrayList<Person>();
-	private RegisterResult ans = new RegisterResult();
 	
-	public static RegisterResult registerVoter(Person p){
-		
-		ans = validateAge(p);
-		return (ans != RegisterResult.VALID) ? ans : (p.isAlive()) ? RegisterResult.DEAD : (validateIsDuplicated(p)) ? RegisterResult.DUPLICATED :  RegisterResult.VALID;
+	public RegisterResult registerVoter(Person p){
+		RegisterResult ans = validateAge(p);
+		return (ans != RegisterResult.valueOf("VALID")) ? ans : 
+				(!p.isAlive()) ? RegisterResult.valueOf("DEAD") : 
+				(validateIsDuplicated(p)) ? RegisterResult.valueOf("DUPLICATED") :  
+				RegisterResult.valueOf("VALID");
 	}
 	
-	private static RegisterResult validateAge(Person p){
+	private RegisterResult validateAge(Person p){
 		int age = p.getAge();
-		return (age < 18 && age >= 0) ? RegisterResult.UNDERAGE : (age > 160 || age < 0) ? RegisterResult.INVALID_AGE : RegisterResult.VALID;
+		return (age < 18 && age >= 0) ? RegisterResult.valueOf("UNDERAGE") : 
+				(age > 160 || age < 0) ? RegisterResult.valueOf("INVALID_AGE") : 
+				RegisterResult.valueOf("VALID");
 	}
 	
-	private static boolean validateIsDuplicated(Person p){
+	private boolean validateIsDuplicated(Person p){
 		boolean duplicated = false;
 		for (int i = 0; i < persons.size(); i++){
 			if (persons.get(i).getId() == p.getId()){
@@ -24,6 +27,13 @@ public class Registry {
 				break;
 			}
 		}
+		addPerson(p, duplicated);
 		return duplicated;
+	}
+	
+	private void addPerson(Person p, boolean isDuplicated){
+		if (!isDuplicated){
+			persons.add(p);
+		}
 	}
 }
