@@ -1,4 +1,2 @@
 # Ignore the directory target for the labs
-/Lab2/Patterns/target
-
-/Lab3/Patterns/target
+**/target
