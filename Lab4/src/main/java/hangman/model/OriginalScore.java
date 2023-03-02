@@ -9,7 +9,7 @@ public class OriginalScore implements GameScore{
 	*	@Param ncorrectCount The number of letters that the player have failed guessing.
 	*	@Return The current score of the player based of his positive or negative points.
 	*/
-    public int calculateScore(int incorrectCount){
+    public int calculateScore(int correctCount, int incorrectCount){
 		int ans = getPoints() - incorrectCount*10;
 		return (getPoints() == 0 | ans <= 0) ? 0 : ans;
 	}
