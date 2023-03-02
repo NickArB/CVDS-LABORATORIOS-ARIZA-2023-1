@@ -1,2 +1,6 @@
 # Ignore the directory target for the labs
 **/target
+**.DS_Store
+**/nbproject/
+**.idea
+**.iml
