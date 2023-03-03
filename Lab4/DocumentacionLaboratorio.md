@@ -432,3 +432,47 @@ public class PowerBonusScore implements GameScore{
 	}
 }
 ```
+```
+
+C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\Lab4>mvn test
+[INFO] Scanning for projects...
+[INFO]
+[INFO] ------------------------< edu.eci.pdsw:Hangman >------------------------
+[INFO] Building Hangman 1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- resources:3.3.0:resources (default-resources) @ Hangman ---
+[INFO] skip non existing resourceDirectory C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\Lab4\src\main\resources
+[INFO]
+[INFO] --- compiler:2.3.2:compile (default-compile) @ Hangman ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO]
+[INFO] --- resources:3.3.0:testResources (default-testResources) @ Hangman ---
+[INFO] skip non existing resourceDirectory C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\Lab4\src\test\resources
+[INFO]
+[INFO] --- compiler:2.3.2:testCompile (default-testCompile) @ Hangman ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO]
+[INFO] --- surefire:3.0.0-M8:test (default-test) @ Hangman ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junit4.JUnit4Provider
+[INFO]
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running hangman.model.GameScoreTest
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.116 s - in hangman.model.GameScoreTest
+[INFO]
+[INFO] Results:
+[INFO]
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0
+[INFO]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  3.258 s
+[INFO] Finished at: 2023-03-03T10:40:51-05:00
+[INFO] ------------------------------------------------------------------------
+
+C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\Lab4>
+```
