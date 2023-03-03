@@ -15,4 +15,6 @@ public interface GameScore{
 	*	@Return The current score of the player.
 	*/
 	public int getPoints();
+	
+	public void setPoints(int newPoints);
 }
