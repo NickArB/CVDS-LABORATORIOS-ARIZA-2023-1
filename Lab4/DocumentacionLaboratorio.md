@@ -539,4 +539,52 @@ public class HangmanDefaultFactoryMethod extends HangmanFactoryMethod {
 			<version>5.1.0</version>
 		</dependency>
 ```
+3. Configure la aplicación de manera que desde el programa SwingProject NO SE CONSTRUYA el Score directamente, sino a través de Guice, asi mismo como las otras dependencias que se están inyectando mediante la fabrica.
+```
+// SwingProject
 
+    //method: main
+    //purpose: the entry-point to our application
+    public static void main(String[] args) {
+        // createGUIUsingFactoryMethod().play();
+		createGUIUsingGuice().play();
+    }
+	
+// HangmanFactoryServices
+
+import hangman.model.Language;
+import hangman.model.French;
+import hangman.model.Spanish;
+import hangman.model.English;
+
+import hangman.model.dictionary.HangmanDictionary;
+import hangman.model.dictionary.FrenchDictionaryDataSource;
+import hangman.model.dictionary.SpanishDictionaryDataSource;
+import hangman.model.dictionary.EnglishDictionaryDataSource;
+
+import hangman.view.HangmanPanel;
+import hangman.view.HangmanNoviolentoPanel;
+import hangman.view.HangmanStickmanPanel;
+import hangman.view.HangmanColoridoPanel;
+
+import hangman.model.GameScore;
+import hangman.model.OriginalScore;
+import hangman.model.BonusScore;
+import hangman.model.PowerBonusScore;
+
+
+public class HangmanFactoryServices extends com.google.inject.AbstractModule {
+
+    @Override
+    protected void configure() {
+        /* Guice dependency injection */
+        bind(Lenguage.class).to(French.class);
+		bind(HangmanDictionary.class).to(FrenchDictionaryDataSource.class);
+		bind(HangmanPanel.class).to(HangmanNoviolentoPanel.class);
+		bind(GameScore.class).to(OriginalScore.class);
+		bind(GameScore.class).to(BonusScore.class);
+    }
+
+}
+
+```
