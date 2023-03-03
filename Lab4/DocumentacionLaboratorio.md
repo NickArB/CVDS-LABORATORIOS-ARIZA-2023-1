@@ -1,6 +1,7 @@
 ### Escuela colombiana de ingenieria Julio Garavito
 ### Laboratorio 4
 #### Estudiante: *Nicolás Ariza Barbosa*
+### Parte 1
 1. A partir del código existente, implemente sólo los cascarones del modelo antes indicado. Haga la especificación de los métodos calculateScore (de las tres variantes de GameScore), a partir de las especificaciones generales dadas anteriormente. Recuerde tener en cuenta: @pre, @pos, @param, @throws.
 ##### Interfaz GameScore
 ```
@@ -476,3 +477,66 @@ C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\La
 
 C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\Lab4>
 ```
+### Parte 2
+1. Utilizando el HangmanFactoryMethod (MétodoFabrica) incluya el OriginalScore a la configuración.
+##### Clase HangmanFactoryMethod
+```
+package hangman.setup.factoryMethod;
+
+import hangman.model.Language;
+import hangman.model.GameScore;
+import hangman.model.dictionary.HangmanDictionary;
+import hangman.view.HangmanPanel;
+
+abstract public class HangmanFactoryMethod {
+    abstract public Language createLanguage();
+    abstract public HangmanDictionary createDictionary();
+    abstract public HangmanPanel createHangmanPanel();
+	abstract public GameScore createGameScore();
+}
+```
+##### Clase HangmanFactoryMethod
+```
+package hangman.setup.factoryMethod;
+
+import hangman.model.English;
+import hangman.model.Language;
+import hangman.model.GameScore;
+import hangman.model.OriginalScore;
+import hangman.model.dictionary.EnglishDictionaryDataSource;
+import hangman.model.dictionary.HangmanDictionary;
+import hangman.view.HangmanPanel;
+import hangman.view.HangmanStickmanPanel;
+
+public class HangmanDefaultFactoryMethod extends HangmanFactoryMethod {
+    @Override
+    public Language createLanguage() {
+        return new English();
+    }
+
+    @Override
+    public HangmanDictionary createDictionary() {
+        return new EnglishDictionaryDataSource();
+    }
+
+    @Override
+    public HangmanPanel createHangmanPanel() {
+        return new HangmanStickmanPanel();
+    }
+	
+	@Override
+	public GameScore createGameScore(){
+		return new OriginalScore();
+	}
+}
+```
+2. Incorpore el Contenedor Liviano Guice dentro del proyecto, revise las dependencias necesarias en el pom.xml.
+```
+<!-- https://mvnrepository.com/artifact/com.google.inject/guice -->
+		<dependency>
+			<groupId>com.google.inject</groupId>
+			<artifactId>guice</artifactId>
+			<version>5.1.0</version>
+		</dependency>
+```
+
