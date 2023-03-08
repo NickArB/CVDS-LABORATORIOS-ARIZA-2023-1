@@ -38,7 +38,6 @@ public class HangmanFactoryServices extends com.google.inject.AbstractModule {
         bind(Language.class).to(French.class);
 		bind(HangmanDictionary.class).to(FrenchDictionaryDataSource.class);
 		bind(HangmanPanel.class).to(HangmanNoviolentoPanel.class);
-		bind(GameScore.class).to(OriginalScore.class);
 		bind(GameScore.class).to(BonusScore.class);
     }
 
