@@ -255,8 +255,8 @@ INFO: Creation of SecureRandom instance for session ID generation using [SHA1PRN
 mar. 08, 2023 8:46:39 P.áM. org.apache.coyote.AbstractProtocol start
 INFO: Starting ProtocolHandler ["http-bio-8080"]
 ```
-3) Abra un navegador, y en la barra de direcciones ponga la URL con la cualse le enviarán peticiones al ‘SampleServlet’. Tenga en cuenta que la URL tendrá
-como host ‘localhost’,como puerto, elconfigurado en el pom.xml y el path debe ser el del Servlet. Debería obtener un mensaje de saludo.
+3) Abra un navegador, y en la barra de direcciones ponga la URL con la cual se le enviarán peticiones al ‘SampleServlet’. Tenga en cuenta que la URL tendrá
+como host ‘localhost’, como puerto el configurado en el pom.xml y el path debe ser el del Servlet. Debería obtener un mensaje de saludo.
 ![](https://github.com/NickArB/CVDS-LABORATORIOS-ARIZA-2023-1/blob/main/Lab5/imagenes/pageTest.png)
 
 4) 
