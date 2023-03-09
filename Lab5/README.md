@@ -257,7 +257,7 @@ INFO: Starting ProtocolHandler ["http-bio-8080"]
 ```
 3) Abra un navegador, y en la barra de direcciones ponga la URL con la cualse le enviarán peticiones al ‘SampleServlet’. Tenga en cuenta que la URL tendrá
 como host ‘localhost’,como puerto, elconfigurado en el pom.xml y el path debe ser el del Servlet. Debería obtener un mensaje de saludo.
-![](https://github.com/NickArB/CVDS-LABORATORIOS-ARIZA-2023-1/tree/main/Lab5/imagenes/pageTest.png)
+![](https://github.com/NickArB/CVDS-LABORATORIOS-ARIZA-2023-1/blob/main/Lab5/imagenes/pageTest.png)
 
 4) 
 
