@@ -102,7 +102,7 @@ C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\La
     **¿Cuáles son las diferencias con los diferentes parámetros?**
     _El parametro -v se denomina "verbose mode" y lo que hace es mostrar informacion sobre el proceso de conexion con el destino sobre la marcha. Por otro lado, el parametro -i se usa para hacer seguimiento a los headers de problemas que retorne el servidor al que se le hace la solicitud._
 #### PARTE II. -HACIENDO UNA APLICACIÓN WEB DINÁMICA A BAJO NIVEL.
-Cree un proyecto maven nuevo usando el arquetipo de aplicación Web estándar **maven-archetype-webapp**.
+1) Cree un proyecto maven nuevo usando el arquetipo de aplicación Web estándar **maven-archetype-webapp**.
 ```
 C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\Lab5>mvn archetype:generate -DgroupId=edu.eci.cvds -DartifactId=Servlet -DarchetypeArtifactId=maven-archetype-webapp -DarchetypeGroupId=org.apache.maven.archetypes
 [INFO] Scanning for projects...
@@ -155,4 +155,112 @@ package: edu.eci.cvds
 
 C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\Lab5>
 ```
+2) Compile y ejecute la aplicación en el servidor embebido Tomcat, a través de Maven.
+```
+
+C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\Lab5>mvn package
+[INFO] Scanning for projects...
+[INFO]
+[INFO] ------------------------< edu.eci.cvds:Servlet >------------------------
+[INFO] Building Servlet Maven Webapp 1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ war ]---------------------------------
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-war-plugin/3.3.1/maven-war-plugin-3.3.1.pom
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-war-plugin/3.3.1/maven-war-plugin-3.3.1.pom (8.8 kB at 9.8 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-war-plugin/3.3.1/maven-war-plugin-3.3.1.jar
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-war-plugin/3.3.1/maven-war-plugin-3.3.1.jar (82 kB at 859 kB/s)
+[INFO]
+[INFO] --- dependency:2.6:copy (default) @ Servlet ---
+[INFO]
+[INFO] --- resources:3.3.0:resources (default-resources) @ Servlet ---
+[INFO] skip non existing resourceDirectory C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\Lab5\src\main\resources
+[INFO]
+[INFO] --- compiler:3.8.0:compile (default-compile) @ Servlet ---
+[INFO] No sources to compile
+[INFO]
+[INFO] --- resources:3.3.0:testResources (default-testResources) @ Servlet ---
+[INFO] skip non existing resourceDirectory C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\Lab5\src\test\resources
+[INFO]
+[INFO] --- compiler:3.8.0:testCompile (default-testCompile) @ Servlet ---
+[INFO] No sources to compile
+[INFO]
+[INFO] --- surefire:3.0.0-M8:test (default-test) @ Servlet ---
+[INFO] No tests to run.
+[INFO]
+[INFO] --- war:3.3.1:war (default-war) @ Servlet ---
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/maven-archiver/3.5.0/maven-archiver-3.5.0.pom
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/maven-archiver/3.5.0/maven-archiver-3.5.0.pom (4.5 kB at 178 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-archiver/4.2.0/plexus-archiver-4.2.0.pom
+Downloaded from central: https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-archiver/4.2.0/plexus-archiver-4.2.0.pom (4.8 kB at 269 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/commons/commons-compress/1.19/commons-compress-1.19.pom
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/commons/commons-compress/1.19/commons-compress-1.19.pom (18 kB at 675 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-interpolation/1.25/plexus-interpolation-1.25.pom
+Downloaded from central: https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-interpolation/1.25/plexus-interpolation-1.25.pom (2.6 kB at 106 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/shared/maven-mapping/3.0.0/maven-mapping-3.0.0.pom
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/shared/maven-mapping/3.0.0/maven-mapping-3.0.0.pom (4.1 kB at 143 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/shared/maven-shared-components/22/maven-shared-components-22.pom
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/shared/maven-shared-components/22/maven-shared-components-22.pom (5.1 kB at 116 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/maven-archiver/3.5.0/maven-archiver-3.5.0.jar
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/shared/maven-mapping/3.0.0/maven-mapping-3.0.0.jar
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/maven-archiver/3.5.0/maven-archiver-3.5.0.jar (26 kB at 370 kB/s)
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/shared/maven-mapping/3.0.0/maven-mapping-3.0.0.jar (11 kB at 100 kB/s)
+[INFO] Packaging webapp
+[INFO] Assembling webapp [Servlet] in [C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\Lab5\target\Servlet-1.0-SNAPSHOT]
+[INFO] Processing war project
+[INFO] Copying webapp resources [C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\Lab5\src\main\webapp]
+[INFO] Building war: C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\Lab5\target\Servlet-1.0-SNAPSHOT.war
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  7.464 s
+[INFO] Finished at: 2023-03-08T19:23:40-05:00
+[INFO] ------------------------------------------------------------------------
+
+C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\Lab5>
+```
+```
+C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\Lab5>mvn tomcat7:run
+[INFO] Scanning for projects...
+[INFO]
+[INFO] ------------------------< edu.eci.cvds:Servlet >------------------------
+[INFO] Building Servlet Maven Webapp 1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ war ]---------------------------------
+[INFO]
+[INFO] >>> tomcat7:2.2:run (default-cli) > process-classes @ Servlet >>>
+[INFO]
+[INFO] --- dependency:2.6:copy (default) @ Servlet ---
+[INFO]
+[INFO] --- resources:3.3.0:resources (default-resources) @ Servlet ---
+[INFO] skip non existing resourceDirectory C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\Lab5\src\main\resources
+[INFO]
+[INFO] --- compiler:3.8.0:compile (default-compile) @ Servlet ---
+[INFO] No sources to compile
+[INFO]
+[INFO] <<< tomcat7:2.2:run (default-cli) < process-classes @ Servlet <<<
+[INFO]
+[INFO]
+[INFO] --- tomcat7:2.2:run (default-cli) @ Servlet ---
+[INFO] Running war on http://localhost:8080/
+[INFO] Using existing Tomcat server configuration at C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\Lab5\target\tomcat
+[INFO] create webapp with contextPath:
+mar. 08, 2023 8:46:37 P.áM. org.apache.coyote.AbstractProtocol init
+INFO: Initializing ProtocolHandler ["http-bio-8080"]
+mar. 08, 2023 8:46:37 P.áM. org.apache.catalina.core.StandardService startInternal
+INFO: Starting service Tomcat
+mar. 08, 2023 8:46:37 P.áM. org.apache.catalina.core.StandardEngine startInternal
+INFO: Starting Servlet Engine: Apache Tomcat/7.0.47
+mar. 08, 2023 8:46:39 P.áM. org.apache.catalina.util.SessionIdGenerator createSecureRandom
+INFO: Creation of SecureRandom instance for session ID generation using [SHA1PRNG] took [109] milliseconds.
+mar. 08, 2023 8:46:39 P.áM. org.apache.coyote.AbstractProtocol start
+INFO: Starting ProtocolHandler ["http-bio-8080"]
+```
+3) Abra un navegador, y en la barra de direcciones ponga la URL con la cualse le enviarán peticiones al ‘SampleServlet’. Tenga en cuenta que la URL tendrá
+como host ‘localhost’,como puerto, elconfigurado en el pom.xml y el path debe ser el del Servlet. Debería obtener un mensaje de saludo.
+![](https://github.com/CVDS/LabsCVDS/CVDS-LABORATORIOS-ARIZA-2023-1/Lab5/imagenes/pageTest.png)
+
+4) 
+
+
+
 
