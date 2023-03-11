@@ -260,7 +260,7 @@ como host ‘localhost’, como puerto el configurado en el pom.xml y el path de
 ![](https://github.com/NickArB/CVDS-LABORATORIOS-ARIZA-2023-1/blob/main/Lab5/imagenes/pageTest.png)
 
 4) 
-
+![](https://github.com/NickArB/CVDS-LABORATORIOS-ARIZA-2023-1/blob/main/Lab5/imagenes/getRequest.png)
 
 
 
