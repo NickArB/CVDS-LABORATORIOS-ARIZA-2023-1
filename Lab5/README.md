@@ -259,8 +259,128 @@ INFO: Starting ProtocolHandler ["http-bio-8080"]
 como host ‘localhost’, como puerto el configurado en el pom.xml y el path debe ser el del Servlet. Debería obtener un mensaje de saludo.
 ![](https://github.com/NickArB/CVDS-LABORATORIOS-ARIZA-2023-1/blob/main/Lab5/imagenes/pageTest.png)
 
-4) 
+4) Observe que el Servlet ‘SampleServlet’ acepta peticiones GET, y opcionalmente, lee el parámetro ‘name’. Ingrese la misma URL, pero ahora agregando un parámetro GET.
 ![](https://github.com/NickArB/CVDS-LABORATORIOS-ARIZA-2023-1/blob/main/Lab5/imagenes/getRequest.png)
+
+5) Busque el artefacto gson en el repositorio de maven y agregue la dependencia.
+    ```
+    <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.10.1</version>
+        </dependency>
+      </dependencies>
+    ```
+6) En el navegador revise la dirección https://jsonplaceholder.typicode.com/todos/1. Intente cambiando diferentes números al final del path de la url.
+![](https://github.com/NickArB/CVDS-LABORATORIOS-ARIZA-2023-1/blob/main/Lab5/imagenes/consultaUno.png)
+
+![](https://github.com/NickArB/CVDS-LABORATORIOS-ARIZA-2023-1/blob/main/Lab5/imagenes/consultaDos.png)
+
+![](https://github.com/NickArB/CVDS-LABORATORIOS-ARIZA-2023-1/blob/main/Lab5/imagenes/consultaTres.png)
+
+7) Basado en la respuesta que le da el servicio del punto anterior,cree la clase edu.eci.cvds.servlet.model.Todo con un constructor vacío y los métodos getter y setter para las propiedades de los"To Dos" que se encuentran en la url indicada.
+    ```
+    package edu.eci.cvds.servlet.model;
+    
+    public class Todo{
+    	private int uId;
+    	private int id;
+    	private String title;
+    	private boolean completed;
+    	
+    	public Todo(){
+    	}
+    	
+    	public int getUserId(){
+    		return uId;
+    	}
+    	
+    	public int getId(){
+    		return id;
+    	}
+    	
+    	public String getTitle(){
+    		return title;
+    	}
+    	
+    	public boolean getCompleted(){
+    		return completed;
+    	}
+    	
+    	public void setUserId(int newUserId){
+    		this.uId = newUserId;
+    	}
+    	
+    	public void setId(int newId){
+    		this.id = newId;
+    	}
+    	
+    	public void setTitle(String newTitle){
+    		this.title = newTitle;
+    	}
+    	
+    	public void setCompletedState(boolean newCompletedState){
+    		this.completed = newCompletedState;
+    	}
+    }
+    ```
+8) Cree una clase que herede de la claseHttpServlet (similar a SampleServlet), y para la misma sobrescriba el método heredado doGet. Incluya la anotación @Override para verificar –en tiempo de compilación- que efectivamente se esté sobreescribiendo un método de las superclases.
+    ```
+    package edu.eci.cvds.servlet;
+    	import java.io.IOException;
+    	import java.io.Writer;
+    	import java.util.Optional;
+    	import javax.servlet.ServletException;
+    	import javax.servlet.annotation.WebServlet;
+    	import javax.servlet.http.HttpServlet;
+    	import javax.servlet.http.HttpServletRequest;
+    	import javax.servlet.http.HttpServletResponse;
+    	
+    	@WebServlet(
+    		urlPatterns = "/accessToServlet"
+    	)
+    	
+    	public class LabServlet extends HttpServlet{
+    		
+    		@Override
+    		protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    			
+    		}
+    }
+    ```
+    ```
+    C:\Users\nicolas.ariza\Documents\CVDS-LABORATORIOS-ARIZA-2023-1\Lab5>mvn compile
+    [INFO] Scanning for projects...
+    [INFO]
+    [INFO] -------------------------< edu.eci.cvds:Lab5 >--------------------------
+    [INFO] Building Servlet Maven Webapp 1.0-SNAPSHOT
+    [INFO] --------------------------------[ war ]---------------------------------
+    [INFO]
+    [INFO] --- maven-dependency-plugin:2.6:copy (default) @ Lab5 ---
+    [INFO]
+    [INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ Lab5 ---
+    [INFO] Using 'UTF-8' encoding to copy filtered resources.
+    [INFO] skip non existing resourceDirectory C:\Users\nicolas.ariza\Documents\CVDS-LABORATORIOS-ARIZA-2023-1\Lab5\src\main\resources
+    [INFO]
+    [INFO] --- maven-compiler-plugin:3.8.0:compile (default-compile) @ Lab5 ---
+    [INFO] Changes detected - recompiling the module!
+    [INFO] Compiling 4 source files to C:\Users\nicolas.ariza\Documents\CVDS-LABORATORIOS-ARIZA-2023-1\Lab5\target\classes
+    [INFO] ------------------------------------------------------------------------
+    [INFO] BUILD SUCCESS
+    [INFO] ------------------------------------------------------------------------
+    [INFO] Total time:  1.943 s
+    [INFO] Finished at: 2023-03-11T08:51:15-05:00
+    [INFO] ------------------------------------------------------------------------
+    
+    C:\Users\nicolas.ariza\Documents\CVDS-LABORATORIOS-ARIZA-2023-1\Lab5>
+    ```
+9) Teniendo en cuenta lassiguientes métodos disponibles en los objetos ServletRequest y ServletResponse recibidos por el método doGet:
+
+
+
+
+
 
 
 
