@@ -1,4 +1,7 @@
 package edu.eci.cvds.servlet;
+	import edu.eci.cvds.servlet.model.Todo;
+	import edu.eci.cvds.servlet.Service;
+	import java.util.ArrayList;
 	import java.io.IOException;
 	import java.io.Writer;
 	import java.util.Optional;
@@ -7,6 +10,9 @@ package edu.eci.cvds.servlet;
 	import javax.servlet.http.HttpServlet;
 	import javax.servlet.http.HttpServletRequest;
 	import javax.servlet.http.HttpServletResponse;
+	import java.net.MalformedURLException;
+	import java.io.FileNotFoundException;
+	import java.lang.NumberFormatException;
 	
 	@WebServlet(
 		urlPatterns = "/accessToServlet"
@@ -22,13 +28,19 @@ package edu.eci.cvds.servlet;
 			Optional<String> optId = Optional.ofNullable(req.getParameter("id"));
 			try{
 				int id = optId.isPresent() && !optId.get().isEmpty() ? Integer.parseInt(optId.get()) : 0;
-				Todo todo = Service.getTodo(id);
 				resp.setStatus(HttpServletResponse.SC_OK);
-				responseWriter.write(todosToHTMLTable(todo));
-			}catch (MalformedURLException e){
-				resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			}finally{
+				ArrayList<Todo> todo = new ArrayList<Todo>();
+				todo.add(Service.getTodo(id));
+				responseWriter.write(Service.todosToHTMLTable(todo));
+			}catch (FileNotFoundException e){
+				resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+				responseWriter.write(Service.errorToHTML(HttpServletResponse.SC_NOT_FOUND));
+			}catch (NumberFormatException e){
 				resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				responseWriter.write(Service.errorToHTML(HttpServletResponse.SC_BAD_REQUEST));
+			}catch (Exception e){
+				resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+				responseWriter.write(Service.errorToHTML(HttpServletResponse.SC_INTERNAL_SERVER_ERROR));
 			}
 		}
 }

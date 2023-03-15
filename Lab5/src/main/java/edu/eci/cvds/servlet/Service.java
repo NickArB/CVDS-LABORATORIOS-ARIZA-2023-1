@@ -9,6 +9,7 @@ import java.net.URLConnection;
 import java.util.List;
 import com.google.gson.Gson;
 import edu.eci.cvds.servlet.model.Todo;
+import javax.servlet.http.HttpServletResponse;
 
 public class Service {
 	public static Todo getTodo(int id) throws MalformedURLException, IOException {
@@ -50,5 +51,26 @@ public class Service {
 		}
 		
 		return stringBuilder.append("</table>").toString();
+	}
+	
+	public static String errorToHTML(int resp) {
+		String ans = (resp == 404) ? "There no exist the activity with the id specified": 
+						(resp == 400) ? "Bad request caused by unexpected id form":
+							"An unexpected error have ocurred with the server";
+		StringBuilder stringBuilder = new StringBuilder("<tr>")
+		.append("<td>")
+		.append("<h1>")
+		.append("Error type " + resp + "!")
+		.append("</h1>")
+		.append("</td>")
+		.append("<td>")
+		.append("<h2>")
+		.append(ans)
+		.append("</h2>")
+		.append("</td>")
+		.append("</tr>")
+		.toString();
+		
+		return stringBuilder;
 	}
 }
