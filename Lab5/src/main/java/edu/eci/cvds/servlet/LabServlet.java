@@ -43,4 +43,9 @@ package edu.eci.cvds.servlet;
 				responseWriter.write(Service.errorToHTML(HttpServletResponse.SC_INTERNAL_SERVER_ERROR));
 			}
 		}
+		
+		@Override
+		protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+			doGet(req, resp);
+		}
 }

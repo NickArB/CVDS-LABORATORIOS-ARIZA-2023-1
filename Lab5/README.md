@@ -8,32 +8,32 @@
 	- Puerto: 80
     - Teniendo en cuenta los parámetros delcomando telnet:
     ``` telnet HOST PORT ```
-```
-C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\Lab5>telnet www.escuelaing.edu.co 80
-Conectandose a www.escuelaing.edu.co ...
-```
+    ```
+    C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\Lab5>telnet www.escuelaing.edu.co 80
+    Conectandose a www.escuelaing.edu.co ...
+    ```
 2) Solicite al servidor el recurso ‘sssss/abc.html’, usando la versión 1.0 de HTTP. Asegúrese de presionar ENTER dos veces después de ingresar el comando.
-```
-GET /sssss/abc.html HTTP/1.0
-Host: www.escuelaing.edu.co
-
-HTTP/1.1 301 Moved Permanently
-Connection: close
-Server: gunicorn
-Date: Wed, 08 Mar 2023 15:18:29 GMT
-Content-Type: text/html; charset=utf-8
-Location: https://www.escuelaing.edu.co/sssss/abc.html
-X-Content-Type-Options: nosniff
-Referrer-Policy: same-origin
-Cross-Origin-Opener-Policy: same-origin
-Via: 1.1 vegur
-
-
-
-Se ha perdido la conexión con el host.
-
-C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\Lab5>
-```
+    ```
+    GET /sssss/abc.html HTTP/1.0
+    Host: www.escuelaing.edu.co
+    
+    HTTP/1.1 301 Moved Permanently
+    Connection: close
+    Server: gunicorn
+    Date: Wed, 08 Mar 2023 15:18:29 GMT
+    Content-Type: text/html; charset=utf-8
+    Location: https://www.escuelaing.edu.co/sssss/abc.html
+    X-Content-Type-Options: nosniff
+    Referrer-Policy: same-origin
+    Cross-Origin-Opener-Policy: same-origin
+    Via: 1.1 vegur
+    
+    
+    
+    Se ha perdido la conexión con el host.
+    
+    C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\Lab5>
+    ```
 - **¿Qué codigo de error sale?**
     301 Moved Permantly y significa que el servidor esta haciendo un redireccionamiento, en este caso lo hace moviendo la peticion hacia HTTPS.
 - **¿Qué otros códigos de error existen?,¿En qué caso se manejarán?**
@@ -47,10 +47,10 @@ C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\La
     -   Host:www.httpbin.org
     -   Puerto: 80
     -   VersiónHTTP:1.1
-```
-C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\Lab5>telnet www.httpbin.org 80
-Conectandose a www.httpbin.org ...
-```
+    ```
+    C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\Lab5>telnet www.httpbin.org 80
+    Conectandose a www.httpbin.org ...
+    ```
 Ahora,solicite (GET) el recurso /html.¿Qué se obtiene como resultado?
 ```
 GET /html HTTP/1.1
@@ -541,15 +541,142 @@ como host ‘localhost’, como puerto el configurado en el pom.xml y el path de
 
 ![](https://github.com/NickArB/CVDS-LABORATORIOS-ARIZA-2023-1/blob/main/Lab5/imagenes/ToDo_400.png)
 
+#### PARTE III
+1) En su servlet, sobreescriba el método doPost, y haga la misma implementación del doGet.
+    ```
+    @Override
+		protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+			Writer responseWriter = resp.getWriter();
+			Optional<String> optId = Optional.ofNullable(req.getParameter("id"));
+			try{
+				int id = optId.isPresent() && !optId.get().isEmpty() ? Integer.parseInt(optId.get()) : 0;
+				resp.setStatus(HttpServletResponse.SC_OK);
+				ArrayList<Todo> todo = new ArrayList<Todo>();
+				todo.add(Service.getTodo(id));
+				responseWriter.write(Service.todosToHTMLTable(todo));
+			}catch (FileNotFoundException e){
+				resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+				responseWriter.write(Service.errorToHTML(HttpServletResponse.SC_NOT_FOUND));
+			}catch (NumberFormatException e){
+				resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				responseWriter.write(Service.errorToHTML(HttpServletResponse.SC_BAD_REQUEST));
+			}catch (Exception e){
+				resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+				responseWriter.write(Service.errorToHTML(HttpServletResponse.SC_INTERNAL_SERVER_ERROR));
+			}
+		}
+    ```
+2) En la página anterior, cree un formulario que tenga un campo para ingresar un número y un botón. El formulario debe usar como método ‘POST’, y como acción, la ruta relativa del último servletcreado (es decir la URL pero excluyendo ‘http://localhost:8080/’).
+    ```
+    <!DOCTYPE html>
+    <html>
+    	<head>
+    		<title>Start Page</title>
+    		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    	</head>
+    	<body>
+    		<h2>Hello, complete the form to continue...</h2>
+    		<form action="/accessToServlet" method="post">
+    			Id: <input type="text" name="id" required>
+    			<br></br>
+    			<input type="submit" value="Submit">
+    		</form>
+    	</body>
+    </html>
+    ```
+3) Revise este ejemplo de validación de formularios con javascript y agruéguelo a su formulario, de manera que -al momento de hacer ‘submit’- desde el browser se valide que el valor ingresado es un valor numérico.
+    ```
+    <!DOCTYPE html>
+    <html>
+    	<head>
+    		<title>Start Page</title>
+    		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    	</head>
+    	<body>
+    		<script>
+    			function validateInt() {
+    			  // Get the value of the input field with id="id"
+    			  let x = document.getElementById("id").value;
+    			  // If x is Not a Number
+    			  let text;
+    			  if (isNaN(x)) {
+    				text = "Input not valid";
+    			  } else {
+    				text = "Input OK";
+    			  }
+    			  document.getElementById("demo").innerHTML = text;
+    			}
+    		</script>
+    		
+    		<h2>Hello, complete the form to continue...</h2>
+    		<form action="/accessToServlet" method="post">
+    			Id: <input type="text" name="id" required>
+    			<br></br>
+    			<input type="submit" value="Submit">
+    			<p id="demo"></p>
+    		</form>
+    	</body>
+    </html>
+    ```
+4) Recompile y ejecute la aplicación. Abra en su navegador en la página del formulario, y rectifique que la página hecha anteriormente sea mostrada. Ingrese los datos y verifique los resultados. 
 
+![](https://github.com/NickArB/CVDS-LABORATORIOS-ARIZA-2023-1/blob/main/Lab5/imagenes/formStartPage.png)
 
+_Probamos ingresando en el formulario el valor "90"._
 
+![](https://github.com/NickArB/CVDS-LABORATORIOS-ARIZA-2023-1/blob/main/Lab5/imagenes/formSample1.png)
 
+_Despues de dar click en el botón "Submit" se redirecciona a la siguiente pagina en respuesta._
 
+![](https://github.com/NickArB/CVDS-LABORATORIOS-ARIZA-2023-1/blob/main/Lab5/imagenes/formResponse1.png)
 
+_Ingresar un valor erroneo hara que el servidor responda con un mensaje de error._
 
+![](https://github.com/NickArB/CVDS-LABORATORIOS-ARIZA-2023-1/blob/main/Lab5/imagenes/formSample2.png)
 
+![](https://github.com/NickArB/CVDS-LABORATORIOS-ARIZA-2023-1/blob/main/Lab5/imagenes/formResponse2.png)
 
+Cambie el formulario para que ahora en lugar de POST, use el método GET ¿Qué diferencia observa?
+```
+    <!DOCTYPE html>
+    <html>
+    	<head>
+    		<title>Start Page</title>
+    		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    	</head>
+    	<body>
+    		<script>
+    			function validateInt() {
+    			  // Get the value of the input field with id="id"
+    			  let x = document.getElementById("id").value;
+    			  // If x is Not a Number
+    			  let text;
+    			  if (isNaN(x)) {
+    				text = "Input not valid";
+    			  } else {
+    				text = "Input OK";
+    			  }
+    			  document.getElementById("demo").innerHTML = text;
+    			}
+    		</script>
+    		
+    		<h2>Hello, complete the form to continue...</h2>
+    		<form action="/accessToServlet" method="post">
+    			Id: <input type="text" name="id" required>
+    			<br></br>
+    			<input type="submit" value="Submit">
+    			<p id="demo"></p>
+    		</form>
+    	</body>
+    </html>
+```
 
+_Probamos ingresando en el formulario el valor "190"._
+
+![](https://github.com/NickArB/CVDS-LABORATORIOS-ARIZA-2023-1/blob/main/Lab5/imagenes/formSample3.png)
+
+_Y esta vez observamos que en el espacio de la URL se ha añadido los valores "*?id=190" lo cual no ocurria con el metodo POST._
+
+![](https://github.com/NickArB/CVDS-LABORATORIOS-ARIZA-2023-1/blob/main/Lab5/imagenes/formResponse3.png)
 
 
