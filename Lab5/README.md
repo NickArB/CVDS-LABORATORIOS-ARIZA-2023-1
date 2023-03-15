@@ -279,7 +279,7 @@ como host ‘localhost’, como puerto el configurado en el pom.xml y el path de
 
 ![](https://github.com/NickArB/CVDS-LABORATORIOS-ARIZA-2023-1/blob/main/Lab5/imagenes/consultaTres.png)
 
-7) Basado en la respuesta que le da el servicio del punto anterior,cree la clase edu.eci.cvds.servlet.model.Todo con un constructor vacío y los métodos getter y setter para las propiedades de los"To Dos" que se encuentran en la url indicada.
+7) Basado en la respuesta que le da el servicio del punto anterior, cree la clase edu.eci.cvds.servlet.model.Todo con un constructor vacío y los métodos getter y setter para las propiedades de los"To Dos" que se encuentran en la url indicada.
     ```
     package edu.eci.cvds.servlet.model;
     
@@ -375,7 +375,172 @@ como host ‘localhost’, como puerto el configurado en el pom.xml y el path de
     
     C:\Users\nicolas.ariza\Documents\CVDS-LABORATORIOS-ARIZA-2023-1\Lab5>
     ```
-9) Teniendo en cuenta lassiguientes métodos disponibles en los objetos ServletRequest y ServletResponse recibidos por el método doGet:
+9) Teniendo en cuenta las siguientes métodos disponibles en los objetos ServletRequest y ServletResponse recibidos por el método doGet:
+    ```
+    package edu.eci.cvds.servlet;
+    	import edu.eci.cvds.servlet.model.Todo;
+    	import edu.eci.cvds.servlet.Service;
+    	import java.util.ArrayList;
+    	import java.io.IOException;
+    	import java.io.Writer;
+    	import java.util.Optional;
+    	import javax.servlet.ServletException;
+    	import javax.servlet.annotation.WebServlet;
+    	import javax.servlet.http.HttpServlet;
+    	import javax.servlet.http.HttpServletRequest;
+    	import javax.servlet.http.HttpServletResponse;
+    	import java.net.MalformedURLException;
+    	import java.io.FileNotFoundException;
+    	import java.lang.NumberFormatException;
+    	
+    	@WebServlet(
+    		urlPatterns = "/accessToServlet"
+    	)
+    	
+    	public class LabServlet extends HttpServlet{
+    		static final long serialVersionUID = 35L;
+    		
+    		
+    		@Override
+    		protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    			Writer responseWriter = resp.getWriter();
+    			Optional<String> optId = Optional.ofNullable(req.getParameter("id"));
+    			try{
+    				int id = optId.isPresent() && !optId.get().isEmpty() ? Integer.parseInt(optId.get()) : 0;
+    				resp.setStatus(HttpServletResponse.SC_OK);
+    				ArrayList<Todo> todo = new ArrayList<Todo>();
+    				todo.add(Service.getTodo(id));
+    				responseWriter.write(Service.todosToHTMLTable(todo));
+    			}catch (FileNotFoundException e){
+    				resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+    				responseWriter.write(Service.errorToHTML(HttpServletResponse.SC_NOT_FOUND));
+    			}catch (NumberFormatException e){
+    				resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+    				responseWriter.write(Service.errorToHTML(HttpServletResponse.SC_BAD_REQUEST));
+    			}catch (Exception e){
+    				resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+    				responseWriter.write(Service.errorToHTML(HttpServletResponse.SC_INTERNAL_SERVER_ERROR));
+    			}
+    		}
+    }
+    ```
+10) Una vez hecho esto, verifique el funcionamiento de la aplicación, recompile y ejecute la aplicación.
+    ```
+    C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\Lab5>mvn package
+    [INFO] Scanning for projects...
+    [INFO]
+    [INFO] -------------------------< edu.eci.cvds:Lab5 >--------------------------
+    [INFO] Building Servlet Maven Webapp 1.0-SNAPSHOT
+    [INFO]   from pom.xml
+    [INFO] --------------------------------[ war ]---------------------------------
+    [INFO]
+    [INFO] --- dependency:2.6:copy (default) @ Lab5 ---
+    [INFO]
+    [INFO] --- resources:3.3.0:resources (default-resources) @ Lab5 ---
+    [INFO] skip non existing resourceDirectory C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\Lab5\src\main\resources
+    [INFO]
+    [INFO] --- compiler:3.8.0:compile (default-compile) @ Lab5 ---
+    [INFO] Nothing to compile - all classes are up to date
+    [INFO]
+    [INFO] --- resources:3.3.0:testResources (default-testResources) @ Lab5 ---
+    [INFO] skip non existing resourceDirectory C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\Lab5\src\test\resources
+    [INFO]
+    [INFO] --- compiler:3.8.0:testCompile (default-testCompile) @ Lab5 ---
+    [INFO] No sources to compile
+    [INFO]
+    [INFO] --- surefire:3.0.0-M8:test (default-test) @ Lab5 ---
+    [INFO] No tests to run.
+    [INFO]
+    [INFO] --- war:3.3.2:war (default-war) @ Lab5 ---
+    [INFO] Packaging webapp
+    [INFO] Assembling webapp [Lab5] in [C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\Lab5\target\Lab5-1.0-SNAPSHOT]
+    [INFO] Processing war project
+    [INFO] Building war: C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\Lab5\target\Lab5-1.0-SNAPSHOT.war
+    [INFO] ------------------------------------------------------------------------
+    [INFO] BUILD SUCCESS
+    [INFO] ------------------------------------------------------------------------
+    [INFO] Total time:  8.207 s
+    [INFO] Finished at: 2023-03-14T21:59:13-05:00
+    [INFO] ------------------------------------------------------------------------
+    
+    C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\Lab5>
+    ```
+    ```
+    C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\Lab5>mvn tomcat7:run
+    [INFO] Scanning for projects...
+    [INFO]
+    [INFO] -------------------------< edu.eci.cvds:Lab5 >--------------------------
+    [INFO] Building Servlet Maven Webapp 1.0-SNAPSHOT
+    [INFO]   from pom.xml
+    [INFO] --------------------------------[ war ]---------------------------------
+    [INFO]
+    [INFO] >>> tomcat7:2.2:run (default-cli) > process-classes @ Lab5 >>>
+    [INFO]
+    [INFO] --- dependency:2.6:copy (default) @ Lab5 ---
+    [INFO]
+    [INFO] --- resources:3.3.0:resources (default-resources) @ Lab5 ---
+    [INFO] skip non existing resourceDirectory C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\Lab5\src\main\resources
+    [INFO]
+    [INFO] --- compiler:3.8.0:compile (default-compile) @ Lab5 ---
+    [INFO] Nothing to compile - all classes are up to date
+    [INFO]
+    [INFO] <<< tomcat7:2.2:run (default-cli) < process-classes @ Lab5 <<<
+    [INFO]
+    [INFO]
+    [INFO] --- tomcat7:2.2:run (default-cli) @ Lab5 ---
+    [INFO] Running war on http://localhost:8080/
+    [INFO] Using existing Tomcat server configuration at C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\Lab5\target\tomcat
+    [INFO] create webapp with contextPath:
+    mar. 14, 2023 10:09:39 P.áM. org.apache.coyote.AbstractProtocol init
+    INFO: Initializing ProtocolHandler ["http-bio-8080"]
+    mar. 14, 2023 10:09:39 P.áM. org.apache.catalina.core.StandardService startInternal
+    INFO: Starting service Tomcat
+    mar. 14, 2023 10:09:39 P.áM. org.apache.catalina.core.StandardEngine startInternal
+    INFO: Starting Servlet Engine: Apache Tomcat/7.0.47
+    mar. 14, 2023 10:09:41 P.áM. org.apache.catalina.startup.ContextConfig processAnnotationsJar
+    SEVERE: Unable to process Jar entry [META-INF/versions/9/module-info.class] from Jar [jar:file:/C:/Users/Nicolas%20Ariza/.m2/repository/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar!/] for annotations
+    org.apache.tomcat.util.bcel.classfile.ClassFormatException: Invalid byte tag in constant pool: 19
+            at org.apache.tomcat.util.bcel.classfile.Constant.readConstant(Constant.java:133)
+            at org.apache.tomcat.util.bcel.classfile.ConstantPool.<init>(ConstantPool.java:60)
+            at org.apache.tomcat.util.bcel.classfile.ClassParser.readConstantPool(ClassParser.java:209)
+            at org.apache.tomcat.util.bcel.classfile.ClassParser.parse(ClassParser.java:119)
+            at org.apache.catalina.startup.ContextConfig.processAnnotationsStream(ContextConfig.java:2134)
+            at org.apache.catalina.startup.ContextConfig.processAnnotationsJar(ContextConfig.java:2010)
+            at org.apache.catalina.startup.ContextConfig.processAnnotationsUrl(ContextConfig.java:1976)
+            at org.apache.catalina.startup.ContextConfig.processAnnotations(ContextConfig.java:1961)
+            at org.apache.catalina.startup.ContextConfig.webConfig(ContextConfig.java:1319)
+            at org.apache.catalina.startup.ContextConfig.configureStart(ContextConfig.java:878)
+            at org.apache.catalina.startup.ContextConfig.lifecycleEvent(ContextConfig.java:376)
+            at org.apache.catalina.util.LifecycleSupport.fireLifecycleEvent(LifecycleSupport.java:119)
+            at org.apache.catalina.util.LifecycleBase.fireLifecycleEvent(LifecycleBase.java:90)
+            at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:5322)
+            at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:150)
+            at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1559)
+            at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1549)
+            at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+            at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+            at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+            at java.base/java.lang.Thread.run(Thread.java:833)
+    
+    mar. 14, 2023 10:09:42 P.áM. org.apache.catalina.util.SessionIdGenerator createSecureRandom
+    INFO: Creation of SecureRandom instance for session ID generation using [SHA1PRNG] took [115] milliseconds.
+    mar. 14, 2023 10:09:42 P.áM. org.apache.coyote.AbstractProtocol start
+    INFO: Starting ProtocolHandler ["http-bio-8080"]
+    ```
+    
+11) Intente hacer diferentes consultas desde un navegador Web para probar las diferentes funcionalidades.
+![](https://github.com/NickArB/CVDS-LABORATORIOS-ARIZA-2023-1/blob/main/Lab5/imagenes/ToDo_Consulta1.png)
+
+![](https://github.com/NickArB/CVDS-LABORATORIOS-ARIZA-2023-1/blob/main/Lab5/imagenes/ToDo_Consulta2.png)
+
+![](https://github.com/NickArB/CVDS-LABORATORIOS-ARIZA-2023-1/blob/main/Lab5/imagenes/ToDo_404.png)
+
+![](https://github.com/NickArB/CVDS-LABORATORIOS-ARIZA-2023-1/blob/main/Lab5/imagenes/ToDo_400.png)
+
+
+
+
+
 
 
 

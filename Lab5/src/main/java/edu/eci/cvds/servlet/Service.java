@@ -57,7 +57,7 @@ public class Service {
 		String ans = (resp == 404) ? "There no exist the activity with the id specified": 
 						(resp == 400) ? "Bad request caused by unexpected id form":
 							"An unexpected error have ocurred with the server";
-		StringBuilder stringBuilder = new StringBuilder("<tr>")
+		StringBuilder stringBuilder = new StringBuilder("<html>")
 		.append("<td>")
 		.append("<h1>")
 		.append("Error type " + resp + "!")
@@ -68,9 +68,8 @@ public class Service {
 		.append(ans)
 		.append("</h2>")
 		.append("</td>")
-		.append("</tr>")
-		.toString();
+		.append("</html>");
 		
-		return stringBuilder;
+		return stringBuilder.toString();
 	}
 }
