@@ -257,9 +257,11 @@ INFO: Starting ProtocolHandler ["http-bio-8080"]
 ```
 3) Abra un navegador, y en la barra de direcciones ponga la URL con la cual se le enviarán peticiones al ‘SampleServlet’. Tenga en cuenta que la URL tendrá
 como host ‘localhost’, como puerto el configurado en el pom.xml y el path debe ser el del Servlet. Debería obtener un mensaje de saludo.
+
 ![](https://github.com/NickArB/CVDS-LABORATORIOS-ARIZA-2023-1/blob/main/Lab5/imagenes/pageTest.png)
 
 4) Observe que el Servlet ‘SampleServlet’ acepta peticiones GET, y opcionalmente, lee el parámetro ‘name’. Ingrese la misma URL, pero ahora agregando un parámetro GET.
+
 ![](https://github.com/NickArB/CVDS-LABORATORIOS-ARIZA-2023-1/blob/main/Lab5/imagenes/getRequest.png)
 
 5) Busque el artefacto gson en el repositorio de maven y agregue la dependencia.
@@ -273,6 +275,7 @@ como host ‘localhost’, como puerto el configurado en el pom.xml y el path de
       </dependencies>
     ```
 6) En el navegador revise la dirección https://jsonplaceholder.typicode.com/todos/1. Intente cambiando diferentes números al final del path de la url.
+
 ![](https://github.com/NickArB/CVDS-LABORATORIOS-ARIZA-2023-1/blob/main/Lab5/imagenes/consultaUno.png)
 
 ![](https://github.com/NickArB/CVDS-LABORATORIOS-ARIZA-2023-1/blob/main/Lab5/imagenes/consultaDos.png)
@@ -529,6 +532,7 @@ como host ‘localhost’, como puerto el configurado en el pom.xml y el path de
     ```
     
 11) Intente hacer diferentes consultas desde un navegador Web para probar las diferentes funcionalidades.
+
 ![](https://github.com/NickArB/CVDS-LABORATORIOS-ARIZA-2023-1/blob/main/Lab5/imagenes/ToDo_Consulta1.png)
 
 ![](https://github.com/NickArB/CVDS-LABORATORIOS-ARIZA-2023-1/blob/main/Lab5/imagenes/ToDo_Consulta2.png)
