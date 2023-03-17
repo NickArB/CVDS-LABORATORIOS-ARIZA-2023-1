@@ -679,4 +679,169 @@ _Y esta vez observamos que en el espacio de la URL se ha añadido los valores "*
 
 ![](https://github.com/NickArB/CVDS-LABORATORIOS-ARIZA-2023-1/blob/main/Lab5/imagenes/formResponse3.png)
 
+#### PARTE IV. - FRAMEWORKS WEB MVC – JAVA SERVER FACES / PRIME FACES
+1) Al proyecto Maven, debe agregarle las dependencias masrecientes de javax.javaee-api, com.sun.faces.jsf-api, com.sun.faces.jsf-impl, javax.servlet.jstl y Primefaces (en el archivo pom.xml).
+```
+<!-- https://mvnrepository.com/artifact/javax/javaee-api -->
+	<dependency>
+		<groupId>javax</groupId>
+		<artifactId>javaee-api</artifactId>
+		<version>8.0</version>
+		<scope>provided</scope>
+	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/com.sun.faces/jsf-api -->
+    <dependency>
+        <groupId>com.sun.faces</groupId>
+        <artifactId>jsf-api</artifactId>
+        <version>2.2.20</version>
+    </dependency>
+	
+	<!-- https://mvnrepository.com/artifact/com.sun.faces/jsf-impl -->
+    <dependency>
+        <groupId>com.sun.faces</groupId>
+        <artifactId>jsf-impl</artifactId>
+        <version>2.2.20</version>
+    </dependency>
+	
+	<!-- https://mvnrepository.com/artifact/javax.servlet/jstl -->
+    <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>jstl</artifactId>
+        <version>1.2</version>
+    </dependency>
+	
+	<!-- https://mvnrepository.com/artifact/org.primefaces/primefaces -->
+    <dependency>
+        <groupId>org.primefaces</groupId>
+        <artifactId>primefaces</artifactId>
+        <version>12.0.0</version>
+    </dependency>
+```
+2) Ahora, va a crear un Backing-Bean de sesión, el cual, para cada usuario, mantendrá de lado del servidor las siguientes propiedades: 
+    * El número que actualmente debe adivinar (debe ser un número aleatorio).
+    * El número de intentos realizados.
+    * El premio acumulado hasta el momento.
+    * El estado del juego, que sería una cadena de texto que indica si ya ganó o no, y si ganó de cuanto es el premio.
+
+    A la implementación de esta clase, agregue los siguientes métodos:
+    - **guess**: Debe recibir un intento de adivinanza y realizar la lógica para sabersise adivinó, de tal forma que se ajuste el valor del premio y/o actualice el estado del juego.
+    - **restart**: Debe volver a iniciar el juego (inicializar de nuevo el número a adivinar, y restaurar el premio a su valor original).
+    
+    ```
+    package edu.eci.cvds.servlet;
+    
+    import java.util.Random;
+    import javax.faces.bean.ManagedBean;
+    import javax.faces.bean.SessionScoped;
+    import javax.faces.bean.ApplicationScoped;
+    
+    @ManagedBean(name = "guessBean")
+    @ApplicationScoped
+    public class GuessBean{
+    	private int currentNumberGuess;
+    	private int attempts;
+    	private int prize;
+    	private String[] gameStates = new String[]{"Winner of ", "You Loose", "Gotta keep up"};
+    	private String gameState;
+    	private Random guessNumber = new Random();
+    	
+    	
+    	public GuessBean(){
+    		this.gameState = gameStates[2];
+    		setPrize(30000);
+    		setAttempts(5);
+    		setNewNumber();
+    	}
+    	
+    	public void guess(int numberChoosen){
+    		this.prize = (numberChoosen == getCurrentGuessNumber()) ?  (getPrize() + 100000) : (getPrize() - 10000);
+    		setAttempts(getAttempts() - 1);
+    		validateGameState();	
+    	}
+    	
+    	public void reset(){
+    		this.gameState = gameStates[2];
+    		setPrize(30000);
+    		setAttempts(5);
+    		setNewNumber();
+    	}
+    	
+    	private void validateGameState(){
+    		if (getPrize() <= 0 || getAttempts() <= 0){
+    			setGameState("L");
+    		}else{
+    			setGameState("W");
+    		}
+    	}
+    	
+    	public void setNewNumber(){
+    		this.currentNumberGuess = guessNumber.nextInt(5)+1;
+    	}
+    	
+    	public void setAttempts(int newAttempts) {
+    		this.attempts = newAttempts;
+    	}
+    	
+    	public void setPrize(int newPrize){
+    		this.prize = newPrize;
+    	}
+    	
+    	public void setGameState(String newGameState){
+    		this.gameState = (newGameState.equals("W")) ? gameStates[0] + getPrize() + "$": gameStates[1];
+    	}
+    	
+    	public int getCurrentGuessNumber(){
+    		return currentNumberGuess;
+    	}
+    	
+    	public int getAttempts(){
+    		return attempts;
+    	}
+    	
+    	public int getPrize(){
+    		return prize;
+    	}
+    	
+    	public String getGameState(){
+    		return gameState;
+    	}
+    }
+    ```
+3) Cree una página XHTML, de nombre guess.xhtml (debe quedar en la ruta src/main/webapp). Revise en la página 13 del manual de PrimeFaces, qué espacios de nombres XML requiere una página de PrimeFaces y cuál esla estructura básica de la misma. Con base en lo anterior, agregue un formulario con identificador guess_form:
+    ```
+    <!DOCTYPE html>
+    <html>
+    	<h:body>
+    		<h:form id="guess_form">
+    		</h:form>
+    	</h:body>
+    </html>
+    ```
+4) Al formulario, agregue:
+- Un elemento de tipo <p:outputLabel> para el número que se debe adivinar, sin embargo, este elemento se debe ocultar. Para ocultarlo, se puede agregar el estilo display: none; al elemento. Una forma de hacerlo es por medio de la propiedad style. En una aplicacion real, no se debería tener este elemento, solo se crea con el fin de simplificar una prueba futura.
+- Un elemento <p:inputText> para que el usuario ingrese su número.
+- Un elemento de tipo <p:outputLabel> para mostrar el número de intentosrealizados.
+- Un elemento de tipo <p:outputLabel> para mostrar el estado del juego.
+- Un elemento de tipo <p:outputLabel> para mostrar en cuanto va el premio. 
+
+    Y asocie dichos elementos al BackingBean de sesión a través de su propiedad value, y usando como referencia el nombre asignado: value="#{guessBean.nombrePropiedad}"
+```
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
