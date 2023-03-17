@@ -6,7 +6,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ApplicationScoped;
 
 @ManagedBean(name = "guessBean")
-@ApplicationScoped
+@SessionScoped
 public class GuessBean{
 	private int currentNumberGuess;
 	private int attempts;
@@ -23,10 +23,10 @@ public class GuessBean{
 		setNewNumber();
 	}
 	
-	public void guess(int numberChoosen){
+	public void gues(int numberChoosen){
 		this.prize = (numberChoosen == getCurrentGuessNumber()) ?  (getPrize() + 100000) : (getPrize() - 10000);
 		setAttempts(getAttempts() - 1);
-		validateGameState();	
+		validateGameState();
 	}
 	
 	public void reset(){
@@ -57,7 +57,7 @@ public class GuessBean{
 	}
 	
 	public void setGameState(String newGameState){
-		this.gameState = (newGameState.equals("W")) ? gameStates[0] + getPrize() + "$": gameStates[1];
+		this.gameState = (newGameState.equals("W")) ? gameStates[0] + "$" + getPrize(): gameStates[1];
 	}
 	
 	public int getCurrentGuessNumber(){

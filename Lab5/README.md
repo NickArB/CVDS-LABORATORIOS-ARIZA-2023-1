@@ -826,9 +826,202 @@ _Y esta vez observamos que en el espacio de la URL se ha añadido los valores "*
 - Un elemento de tipo <p:outputLabel> para mostrar en cuanto va el premio. 
 
     Y asocie dichos elementos al BackingBean de sesión a través de su propiedad value, y usando como referencia el nombre asignado: value="#{guessBean.nombrePropiedad}"
+    ```
+    <!DOCTYPE html>
+    <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+    	xmlns:p="http://primefaces.org/ui">
+    	<h:body>
+    		<h:form id="guess_form">
+    			<p:outputLabel value="#{guessBean.getCurrentGuessNumber()} style="display:none"/>
+    			<h3>Number of attempts left:</h3>
+    			<p:outputLabel value="#{guessBean.getAttempts()}"/>
+    			<h3>Game state:</h3>
+    			<p:outputLabel value="#{guessBean.getGameState()}"/>
+    			<h3>Prize value:</h3>
+    			<p:outputLabel value="#{guessBean.getPrize()}"/>
+    			<h3>Enter a number:</h3>
+    			<p:inputText binding="#{number}"/>
+    		</h:form>
+    	</h:body>
+    </html>
+    ```
+5) Al formulario, agregue dos botones de tipo <p:commandButton>, uno para enviar el número ingresado y ver si se atinó, y otro para reiniciar el juego.
+- El botón de envío de adivinanza debe tener asociado a su propiedad update el nombre del formulario en el que se agregaron los campos antes descritos, de manera que al hacer click, se ejecute un ciclo de JSF y se refresque la vista.
+- Debe tener también una propiedad actionListener con la cual se le indicará que, al hacer click, se ejecutará el método guess, creado en el backing-bean de sesión: 
+<p:commandButton update="guess_form" actionListener="#{guessBean.guess}">...
+- El botón de reiniciar juego tendrá las mismas propiedades de update y actionListener del otro con el valor correspondiente: <p:commandButton update="..." actionListener="...">
+    ```
+    <!DOCTYPE html>
+    <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+    	xmlns:p="http://primefaces.org/ui">
+    	<h:body>
+    		<h:form id="guess_form">
+    			<p:outputLabel value="#{guessBean.getCurrentGuessNumber()}" style="display:none"/>
+    			<h3>Number of attempts left:</h3>
+    			<p:outputLabel value="#{guessBean.getAttempts()}"/>
+    			<h3>Game state:</h3>
+    			<p:outputLabel value="#{guessBean.getGameState()}"/>
+    			<h3>Prize value:</h3>
+    			<p:outputLabel value="#{guessBean.getPrize()}"/>
+    			<h3>Enter a number:</h3>
+    			<p:inputText binding="#{number}"/>
+    			<p:commandButton value="Submit" update="guess_form" actionListener="#{guessBean.guess()}">
+    			<p:commandButton value="Reset" update="guess_form" actionListener="#{guessBean.reset()}">
+    		</h:form>
+    	</h:body>
+    </html>
+    ```
+6) Para verificar el funcionamiento de la aplicación, agregue el plugin tomcat-runner dentro de los plugins de la fase de construcción (build). Tenga en cuenta que en la configuración del plugin se indica bajo que ruta quedará la aplicación:
+```
+C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\Lab5>mvn package
+[INFO] Scanning for projects...
+[INFO]
+[INFO] -------------------------< edu.eci.cvds:Lab5 >--------------------------
+[INFO] Building Servlet Maven Webapp 1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ war ]---------------------------------
+[INFO]
+[INFO] --- dependency:2.6:copy (default) @ Lab5 ---
+[INFO]
+[INFO] --- resources:3.3.0:resources (default-resources) @ Lab5 ---
+[INFO] skip non existing resourceDirectory C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\Lab5\src\main\resources
+[INFO]
+[INFO] --- compiler:3.8.0:compile (default-compile) @ Lab5 ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 5 source files to C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\Lab5\target\classes
+[INFO]
+[INFO] --- resources:3.3.0:testResources (default-testResources) @ Lab5 ---
+[INFO] skip non existing resourceDirectory C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\Lab5\src\test\resources
+[INFO]
+[INFO] --- compiler:3.8.0:testCompile (default-testCompile) @ Lab5 ---
+[INFO] No sources to compile
+[INFO]
+[INFO] --- surefire:3.0.0-M8:test (default-test) @ Lab5 ---
+[INFO] No tests to run.
+[INFO]
+[INFO] --- war:3.3.2:war (default-war) @ Lab5 ---
+[INFO] Packaging webapp
+[INFO] Assembling webapp [Lab5] in [C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\Lab5\target\Lab5-1.0-SNAPSHOT]
+[INFO] Processing war project
+[INFO] Copying webapp resources [C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\Lab5\src\main\webapp]
+[INFO] Building war: C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\Lab5\target\Lab5-1.0-SNAPSHOT.war
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  11.183 s
+[INFO] Finished at: 2023-03-17T10:22:25-05:00
+[INFO] ------------------------------------------------------------------------
+
+C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\Lab5>
+```
+```
+C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\Lab5>mvn tomcat7:run
+[INFO] Scanning for projects...
+[INFO]
+[INFO] -------------------------< edu.eci.cvds:Lab5 >--------------------------
+[INFO] Building Servlet Maven Webapp 1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ war ]---------------------------------
+[INFO]
+[INFO] >>> tomcat7:2.2:run (default-cli) > process-classes @ Lab5 >>>
+[INFO]
+[INFO] --- dependency:2.6:copy (default) @ Lab5 ---
+[INFO]
+[INFO] --- resources:3.3.0:resources (default-resources) @ Lab5 ---
+[INFO] skip non existing resourceDirectory C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\Lab5\src\main\resources
+[INFO]
+[INFO] --- compiler:3.8.0:compile (default-compile) @ Lab5 ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO]
+[INFO] <<< tomcat7:2.2:run (default-cli) < process-classes @ Lab5 <<<
+[INFO]
+[INFO]
+[INFO] --- tomcat7:2.2:run (default-cli) @ Lab5 ---
+[INFO] Running war on http://localhost:8080/
+[INFO] Using existing Tomcat server configuration at C:\Users\Nicolas Ariza\Documents\CVDS\LabsCVDS\CVDS-LABORATORIOS-ARIZA-2023-1\Lab5\target\tomcat
+[INFO] create webapp with contextPath:
+mar. 17, 2023 10:34:25 A.áM. org.apache.coyote.AbstractProtocol init
+INFO: Initializing ProtocolHandler ["http-bio-8080"]
+mar. 17, 2023 10:34:25 A.áM. org.apache.catalina.core.StandardService startInternal
+INFO: Starting service Tomcat
+mar. 17, 2023 10:34:25 A.áM. org.apache.catalina.core.StandardEngine startInternal
+INFO: Starting Servlet Engine: Apache Tomcat/7.0.47
+mar. 17, 2023 10:34:28 A.áM. org.apache.catalina.startup.ContextConfig processAnnotationsJar
+SEVERE: Unable to process Jar entry [META-INF/versions/9/module-info.class] from Jar [jar:file:/C:/Users/Nicolas%20Ariza/.m2/repository/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar!/] for annotations
+org.apache.tomcat.util.bcel.classfile.ClassFormatException: Invalid byte tag in constant pool: 19
+        at org.apache.tomcat.util.bcel.classfile.Constant.readConstant(Constant.java:133)
+        at org.apache.tomcat.util.bcel.classfile.ConstantPool.<init>(ConstantPool.java:60)
+        at org.apache.tomcat.util.bcel.classfile.ClassParser.readConstantPool(ClassParser.java:209)
+        at org.apache.tomcat.util.bcel.classfile.ClassParser.parse(ClassParser.java:119)
+        at org.apache.catalina.startup.ContextConfig.processAnnotationsStream(ContextConfig.java:2134)
+        at org.apache.catalina.startup.ContextConfig.processAnnotationsJar(ContextConfig.java:2010)
+        at org.apache.catalina.startup.ContextConfig.processAnnotationsUrl(ContextConfig.java:1976)
+        at org.apache.catalina.startup.ContextConfig.processAnnotations(ContextConfig.java:1961)
+        at org.apache.catalina.startup.ContextConfig.webConfig(ContextConfig.java:1319)
+        at org.apache.catalina.startup.ContextConfig.configureStart(ContextConfig.java:878)
+        at org.apache.catalina.startup.ContextConfig.lifecycleEvent(ContextConfig.java:376)
+        at org.apache.catalina.util.LifecycleSupport.fireLifecycleEvent(LifecycleSupport.java:119)
+        at org.apache.catalina.util.LifecycleBase.fireLifecycleEvent(LifecycleBase.java:90)
+        at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:5322)
+        at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:150)
+        at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1559)
+        at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1549)
+        at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+        at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+        at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+        at java.base/java.lang.Thread.run(Thread.java:833)
+
+mar. 17, 2023 10:34:29 A.áM. com.sun.faces.config.ConfigureListener contextInitialized
+INFO: Inicializando Mojarra 2.2.20 ( 20190731-0757 59754ac80c05d61848a08939ddd11a324f2345ac) para el contexto ''
+mar. 17, 2023 10:34:29 A.áM. com.sun.faces.spi.InjectionProviderFactory createInstance
+INFO: JSF1048: hay presentes anotaciones PostConstruct/PreDestroy.  Los mÚtodos de beans administrados marcados con estas anotaciones procesarßn dichas anotaciones.
+mar. 17, 2023 10:34:30 A.áM. org.primefaces.webapp.PostConstructApplicationEventListener processEvent
+INFO: Running on PrimeFaces 12.0.0
+mar. 17, 2023 10:34:30 A.áM. org.apache.catalina.util.SessionIdGenerator createSecureRandom
+INFO: Creation of SecureRandom instance for session ID generation using [SHA1PRNG] took [103] milliseconds.
+mar. 17, 2023 10:34:31 A.áM. org.apache.coyote.AbstractProtocol start
+INFO: Starting ProtocolHandler ["http-bio-8080"]
+mar. 17, 2023 10:34:50 A.áM. com.sun.faces.application.view.ViewScopeManager <init>
+INFO: CDI @ViewScoped bean functionality unavailable
 ```
 
-```
+![](https://github.com/NickArB/CVDS-LABORATORIOS-ARIZA-2023-1/blob/main/Lab5/imagenes/guessWorking.png)
+
+7) Si todo funcionó correctamente, realice las siguientes pruebas:
+- Abra la aplicación en un explorador. Realice algunas pruebas con el juego e intente adivinar el número.
+
+![](https://github.com/NickArB/CVDS-LABORATORIOS-ARIZA-2023-1/blob/main/Lab5/imagenes/guessAttempt1_0.png)
+
+![](https://github.com/NickArB/CVDS-LABORATORIOS-ARIZA-2023-1/blob/main/Lab5/imagenes/guessAttempt1_1.png)
+
+- Abra la aplicación en dos computadores diferentes. Si no dispone de uno, hágalo en dos navegadores diferentes(por ejemplo Chrome y Firefox; incluso se puede en un único navegador usando una ventana normal y una ventana de incógnito / privada).Haga cinco intentos en uno, y luego un intento en el otro. ¿Qué valor tiene cada uno?
+
+![](https://github.com/NickArB/CVDS-LABORATORIOS-ARIZA-2023-1/blob/main/Lab5/imagenes/guessUsers.png)
+
+_Se prueba adivinando el mismo número en las dos páginas y se observa que la informacion de una sesión y la otra se estan solapando entre si ya que un jugador gano 100000 y el otro sin hacer nada también acabo ganando 100000 sin hacer nada._
+
+![](https://github.com/NickArB/CVDS-LABORATORIOS-ARIZA-2023-1/blob/main/Lab5/imagenes/guessUsersTest.png)
+
+- Aborte el proceso de Tomcat-runner haciendo Ctrl+C en la consola, y modifique el código del backing-bean de manera que use la anotación @SessionScoped en lugar de @ApplicationScoped. Reinicie la aplicación y repita el ejercicio anterior ¿Coinciden los valores del premio?
+
+_Una vez se modifico el tipo de sión se observa que en este caso la informacion de los jugadores ya no se solapa entre si._
+
+![](https://github.com/NickArB/CVDS-LABORATORIOS-ARIZA-2023-1/blob/main/Lab5/imagenes/guessSessionScoped.png)
+
+Dado la anterior ¿Cuál es la diferencia entre los backing-beans de sesión y los de aplicación?
+_Los backing bean de aplicacion crean una sola instancia de la clase que controla la lógica tras el JSF, es decir, que todo los usuarios que accedan al servicio web compartiran las mismas caracteristicas de información. Por otro lado, los de sesion crean instancias aparte para cada usuario que accede al servicio web y estos manejan los mismos atributos pero con valores diferentes_
+
+- Por medio de las herramientas de desarrollador del explorador (Usando la tecla "F12" en la mayoría de exploradores):
+    * Ubique el códigoHTML generado por elservidor.
+    * Busque el elemento oculto, que contiene el número generado aleatoriamente.
+    * En la sección de estilos, deshabilite el estilo que oculta el elemento para que sea visible.
+    * Observe el cambio en la página, cada vez que se realiza un cambio en el estilo.
+    * Revise qué otros estilos se pueden agregar a los diferentes elementos y qué efecto tienen en la visualización de la página. Actualice la página. Los cambios de estilos realizados desaparecen, pues se realizaron únicamente en la visualización, la respuesta del servidor sigue siendo la misma, ya que el contenido de los archivos allí almacenados no se ha modificado.
+    * Revise qué otros cambios se pueden realizar y qué otra información se puede obtener de las herramientas de desarrollador.
 
 
 

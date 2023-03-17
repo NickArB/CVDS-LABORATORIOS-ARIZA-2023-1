@@ -6,11 +6,16 @@
 	<h:body>
 		<h:form id="guess_form">
 			<p:outputLabel value="#{guessBean.getCurrentGuessNumber()}" style="display:none"/>
-			<h3>Number of attempts left:</h3><p:outputLabel value="#{guessBean.getAttempts()}"/>
-			<h3>Game state:</h3><p:outputLabel value="#{guessBean.getGameState()}"/>
+			<h3>Number of attempts left:</h3>
+			<p:outputLabel value="#{guessBean.getAttempts()}"/>
+			<h3>Game state:</h3>
+			<p:outputLabel value="#{guessBean.getGameState()}"/>
 			<h3>Prize value:</h3>
-			<br><p:outputLabel value="#{guessBean.getPrize()}"/></br>
-			<h3>Enter a number:</h3><p:inputText binding="#{number}"/>
+			<p:outputLabel value="#{guessBean.getPrize()}"/>
+			<h3>Enter a number:</h3>
+			<p:inputText binding="#{number}"/>
+			<p:commandButton value="Submit" update="guess_form" actionListener="#{guessBean.gues(number.value)}"/>
+			<p:commandButton value="Reset" update="guess_form" actionListener="#{guessBean.reset()}"/>
 		</h:form>
 	</h:body>
 </html>
