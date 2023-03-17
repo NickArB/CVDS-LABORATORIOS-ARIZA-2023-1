@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h:body>
+		<h:form id="guess_form">
+			<p:outputLabel value="#{guessBean.getCurrentGuessNumber()}" style="display:none"/>
+			<h3>Number of attempts left:</h3><p:outputLabel value="#{guessBean.getAttempts()}"/>
+			<h3>Game state:</h3><p:outputLabel value="#{guessBean.getGameState()}"/>
+			<h3>Prize value:</h3>
+			<br><p:outputLabel value="#{guessBean.getPrize()}"/></br>
+			<h3>Enter a number:</h3><p:inputText binding="#{number}"/>
+		</h:form>
+	</h:body>
+</html>
