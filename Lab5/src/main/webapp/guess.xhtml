@@ -6,6 +6,12 @@
 	<h:body>
 		<h:form id="guess_form">
 			<p:outputLabel value="#{guessBean.getCurrentGuessNumber()}" style="display:none"/>
+			<h:dataTable value="#{guessBean.getNumbersTried()}" var="numbers">
+				<h:column>             
+					<f:facet name = "header">Tried Numbers</f:facet>               
+					#{numbers}
+			    </h:column>
+			</h:dataTable>
 			<h3>Number of attempts left:</h3>
 			<p:outputLabel value="#{guessBean.getAttempts()}"/>
 			<h3>Game state:</h3>

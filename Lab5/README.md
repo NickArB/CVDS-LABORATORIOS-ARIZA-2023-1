@@ -1016,25 +1016,40 @@ Dado la anterior ¿Cuál es la diferencia entre los backing-beans de sesión y l
 _Los backing bean de aplicacion crean una sola instancia de la clase que controla la lógica tras el JSF, es decir, que todo los usuarios que accedan al servicio web compartiran las mismas caracteristicas de información. Por otro lado, los de sesion crean instancias aparte para cada usuario que accede al servicio web y estos manejan los mismos atributos pero con valores diferentes_
 
 - Por medio de las herramientas de desarrollador del explorador (Usando la tecla "F12" en la mayoría de exploradores):
-    * Ubique el códigoHTML generado por elservidor.
-    * Busque el elemento oculto, que contiene el número generado aleatoriamente.
-    * En la sección de estilos, deshabilite el estilo que oculta el elemento para que sea visible.
-    * Observe el cambio en la página, cada vez que se realiza un cambio en el estilo.
-    * Revise qué otros estilos se pueden agregar a los diferentes elementos y qué efecto tienen en la visualización de la página. Actualice la página. Los cambios de estilos realizados desaparecen, pues se realizaron únicamente en la visualización, la respuesta del servidor sigue siendo la misma, ya que el contenido de los archivos allí almacenados no se ha modificado.
-    * Revise qué otros cambios se pueden realizar y qué otra información se puede obtener de las herramientas de desarrollador.
+    * Ubique el código HTML generado por el servidor. Busque el elemento oculto, que contiene el número generado aleatoriamente.
+    
+    ![](https://github.com/NickArB/CVDS-LABORATORIOS-ARIZA-2023-1/blob/main/Lab5/imagenes/guessHTML.png)
+    
+    * En la sección de estilos, deshabilite el estilo que oculta el elemento para que sea visible. Observe el cambio en la página, cada vez que se realiza un cambio en el estilo.
+    
+    ![](https://github.com/NickArB/CVDS-LABORATORIOS-ARIZA-2023-1/blob/main/Lab5/imagenes/guessHTMLVisible.png)
 
+11. Para facilitar losintentos del usuario,se agregará una lista de los últimos intentos fallidos realizados:
+a. Agregue en el Backing-Bean, una propiedad que contenga una lista de intentados realizados. Agregue cada intento a la lista, cuando se ejecute el método guess.
+```
+package edu.eci.cvds.servlet;
 
+import java.util.Random;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ApplicationScoped;
+import java.util.ArrayList;
 
+@ManagedBean(name = "guessBean")
+@SessionScoped
+public class GuessBean{
+	private ArrayList<int> userNumbers = new ArrayList<int>();
+	...
+	public void gues(int numberChoosen){
+		userNumbers.add(numberChoosen);
+	...
+```
+b. Cuando se reinicie el juego, limpie el contenido de la lista.
+```
+public void reset(){
+		userNumbers.removeAll();
+		...
+```
+c. Busque cómo agregar una tabla a la página, cuyo contenido sea los últimos intentos realizados.
 
-
-
-
-
-
-
-
-
-
-
-
-
+![](https://github.com/NickArB/CVDS-LABORATORIOS-ARIZA-2023-1/blob/main/Lab5/imagenes/guessTried.png)

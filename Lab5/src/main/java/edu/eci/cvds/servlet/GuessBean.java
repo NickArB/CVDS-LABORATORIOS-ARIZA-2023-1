@@ -4,10 +4,12 @@ import java.util.Random;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ApplicationScoped;
+import java.util.ArrayList;
 
 @ManagedBean(name = "guessBean")
 @SessionScoped
 public class GuessBean{
+	private ArrayList<Integer> userNumbers = new ArrayList<Integer>();
 	private int currentNumberGuess;
 	private int attempts;
 	private int prize;
@@ -24,16 +26,22 @@ public class GuessBean{
 	}
 	
 	public void gues(int numberChoosen){
+		userNumbers.add(numberChoosen);
 		this.prize = (numberChoosen == getCurrentGuessNumber()) ?  (getPrize() + 100000) : (getPrize() - 10000);
 		setAttempts(getAttempts() - 1);
 		validateGameState();
 	}
 	
 	public void reset(){
+		userNumbers.clear();
 		this.gameState = gameStates[2];
 		setPrize(30000);
 		setAttempts(5);
 		setNewNumber();
+	}
+	
+	public ArrayList<Integer> getNumbersTried(){
+		return userNumbers;
 	}
 	
 	private void validateGameState(){
