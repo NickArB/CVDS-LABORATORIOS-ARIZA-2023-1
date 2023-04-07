@@ -6,8 +6,8 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ApplicationScoped;
 import java.util.ArrayList;
 
-@ManagedBean(name = "guessBean")
-@SessionScoped
+@ManagedBean(name="guessBean")
+@ApplicationScoped
 public class GuessBean{
 	private ArrayList<Integer> userNumbers = new ArrayList<Integer>();
 	private int currentNumberGuess;
