@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h:body>
+		<h:form id="user_form">
+			<h3>Welcome to the guess game</h3>
+			<h3>Enter your name:</h3>
+			<p:inputText binding="#{name}"/>
+			<p:commandButton value="Start" action="guess.xhtml/" actionListener="#{userBean.setName(name.value)}"/>
+		</h:form>
+	</h:body>
+</html>

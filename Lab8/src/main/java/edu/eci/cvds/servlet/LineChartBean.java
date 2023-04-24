@@ -1,4 +1,4 @@
-package edu.eci.cvds;
+package edu.eci.cvds.servlet;
 
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
@@ -6,6 +6,8 @@ import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.LineChartSeries;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import edu.eci.cvds.service.DataService;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;

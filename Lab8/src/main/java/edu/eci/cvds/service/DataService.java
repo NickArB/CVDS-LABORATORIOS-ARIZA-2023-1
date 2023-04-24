@@ -1,4 +1,4 @@
-package edu.eci.cvds;
+package edu.eci.cvds.service;
 
 import org.springframework.stereotype.Service;
 import java.util.LinkedHashMap;
